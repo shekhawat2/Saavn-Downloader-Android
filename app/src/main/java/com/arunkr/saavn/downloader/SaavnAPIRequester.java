@@ -60,8 +60,8 @@ public class SaavnAPIRequester
         paramHashMap.put("api_version", "4");
         paramHashMap.put("cc", "in");
         paramHashMap.put("v", "61");
-        paramHashMap.put("readable_version", "5.4");
-        paramHashMap.put("app_version", "5.4");
+        paramHashMap.put("readable_version", "5.6");
+        paramHashMap.put("app_version", "5.6");
         paramHashMap.put("manufacturer", "Google");
         paramHashMap.put("model", "Pixel");
         paramHashMap.put("build", "2");

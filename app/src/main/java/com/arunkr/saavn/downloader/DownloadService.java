@@ -26,6 +26,7 @@ public class DownloadService extends IntentService
     public static final String DOWNLOAD_SONG = "DOWNLOADMANAGER.SONG";
     boolean downloadNext = true;
     long last_download_id=-1;
+    private static final int DATABASE_VERSION = 1;
     SongInfo song;
 
 
@@ -102,7 +103,7 @@ public class DownloadService extends IntentService
     void insert_into_database(SongInfo song, Long downloaded_id)
     {
         DatabaseHelper helper = new DatabaseHelper(getApplicationContext(),
-                "metadata.db", null, BuildConfig.VERSION_CODE);
+                "metadata.db", null, DATABASE_VERSION);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("download_id",downloaded_id);
