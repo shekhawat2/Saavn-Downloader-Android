@@ -27,7 +27,7 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
     {
         if(intent.getAction().equals("android.intent.action.DOWNLOAD_COMPLETE"))
         {
-            DatabaseHelper helper = new DatabaseHelper(context, "metadata.db", null, BuildConfig.VERSION_CODE);
+            DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext(), "metadata.db", null, DownloadService.DATABASE_VERSION);
             Bundle extras = intent.getExtras();
             Long downloaded_id = extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
             SQLiteDatabase db = helper.getReadableDatabase();
