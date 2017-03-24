@@ -40,9 +40,9 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
             {
                 DownloadManager downloadManager = (DownloadManager) context
                         .getSystemService(Context.DOWNLOAD_SERVICE);
-                File filename = new File(downloadManager.getUriForDownloadedFile(downloaded_id).getPath());
                 try
                 {
+                    File filename = new File(downloadManager.getUriForDownloadedFile(downloaded_id).getPath());
                     AudioFile f = AudioFileIO.read(filename);
                     Tag tag = f.getTagOrCreateAndSetDefault();
                     cursor.moveToFirst();
