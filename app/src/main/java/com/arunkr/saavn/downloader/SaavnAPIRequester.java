@@ -59,12 +59,12 @@ public class SaavnAPIRequester
         paramHashMap.put("network_operator", "Reliance");
         paramHashMap.put("api_version", "4");
         paramHashMap.put("cc", "in");
-        paramHashMap.put("v", "61");
-        paramHashMap.put("readable_version", "5.6");
-        paramHashMap.put("app_version", "5.6");
+        paramHashMap.put("v", "66");
+        paramHashMap.put("readable_version", "5.7.1");
+        paramHashMap.put("app_version", "5.7.1");
         paramHashMap.put("manufacturer", "Google");
         paramHashMap.put("model", "Pixel");
-        paramHashMap.put("build", "2");
+        paramHashMap.put("build", "3");
         paramHashMap.put("state", "logout");
         paramHashMap.put("session_device_id", RandomStringUtils.randomAlphanumeric(8)+"."
                 +RandomUtils.nextInt(1471527612,1481527612));

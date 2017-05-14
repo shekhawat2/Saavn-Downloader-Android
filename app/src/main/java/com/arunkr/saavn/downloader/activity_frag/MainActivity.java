@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     ClipboardManager myClipboard;
     ProgressDialog progressDialog;
     ProgressDialog downloadingDialog;
-    private static final String host_address = "http://www.saavn.com";
+    private static final String host_address = "https://www.saavn.com";
 
     SharedPreferences sharedPreferences;
     DownloadManager downloadManager;
