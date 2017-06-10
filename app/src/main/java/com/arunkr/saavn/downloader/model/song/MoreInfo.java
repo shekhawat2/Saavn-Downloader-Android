@@ -21,9 +21,9 @@ public class MoreInfo {
 //    @SerializedName("origin")
 //    @Expose
 //    public String origin;
-    @SerializedName("320kbps")
-    @Expose
-    public String _320kbps;
+//    @SerializedName("320kbps")
+//    @Expose
+//    public String _320kbps;
     @SerializedName("encrypted_media_url")
     @Expose
     public String encryptedMediaUrl;

@@ -9,6 +9,11 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,13 +39,13 @@ public class SongInfo implements Parcelable
         return download_url;
     }
 
-    public void setDownload_url(String encrypted_url, boolean highest_quality)
+    public void setDownload_url(String encrypted_url, final boolean highest_quality)
     {
         byte[] array = Base64.decode(encrypted_url.trim(), 0);
-        String s = null;
+        String decrypted_url = null;
         try
         {
-            s = new String(decrypter.doFinal(array));
+            decrypted_url = new String(decrypter.doFinal(array));
         } catch (IllegalBlockSizeException e)
         {
             e.printStackTrace();
@@ -48,7 +53,15 @@ public class SongInfo implements Parcelable
         {
             e.printStackTrace();
         }
-        this.download_url = getDownloadLink(s,highest_quality);
+        final String temp_url = decrypted_url;
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                download_url = getDownloadLink(temp_url,highest_quality);
+            }
+        }).start();
     }
 
     public String getDownload_folder()
@@ -95,7 +108,7 @@ public class SongInfo implements Parcelable
 
     private String getDownloadLink(String link,boolean higest_quality)
     {
-        String output = link;
+        String songLink = link;
 
         int index =link.lastIndexOf('.');
 
@@ -112,15 +125,30 @@ public class SongInfo implements Parcelable
         {
             if(higest_quality)
             {
-                output = m.replaceFirst("$1320$2");
+                songLink = m.replaceFirst("$1320$2");
+                try
+                {
+                    //from stackoverflow
+                    //as the call is made from a thread other than main thread we can
+                    //do network operations
+                    HttpURLConnection.setFollowRedirects(false);
+                    HttpURLConnection con = (HttpURLConnection) new URL(songLink).openConnection();
+                    //HEAD to just check if the URL exists
+                    con.setRequestMethod("HEAD");
+                    if ((con.getResponseCode() == HttpURLConnection.HTTP_OK))
+                        return songLink;
+                } catch (Exception e)
+                {
+                    return m.replaceFirst("$1160$2");
+                }
             }
             else
             {
-                output = m.replaceFirst("$1160$2");
+                return m.replaceFirst("$1160$2");
             }
         }
 
-        return output;
+        return songLink;
     }
 
     public String getArtist_name()

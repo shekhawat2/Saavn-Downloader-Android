@@ -661,8 +661,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
                     }
-                    if(Boolean.parseBoolean(s.moreInfo._320kbps)
-                            && Utils.getIsMaxQualityRequested(MainActivity.this))
+                    if(Utils.getIsMaxQualityRequested(MainActivity.this))
                     {
                         song.setDownload_url(encUrl,true);
                     }
@@ -798,8 +797,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
                     }
-                    if(Boolean.getBoolean(s.moreInfo._320kbps)
-                            && Utils.getIsMaxQualityRequested(MainActivity.this))
+                    if(Utils.getIsMaxQualityRequested(MainActivity.this))
                     {
                         song.setDownload_url(encUrl,true);
                     }
