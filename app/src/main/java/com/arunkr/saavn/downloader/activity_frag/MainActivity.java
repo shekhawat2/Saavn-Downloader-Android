@@ -657,6 +657,7 @@ public class MainActivity extends AppCompatActivity
                     song.setYear(s.year);
                     song.setAlbum_name(s.moreInfo.album);
                     song.setDownload_folder(s.moreInfo.album);
+                    song.setAlbumArtUrl(s.image.trim());
                     if(s.moreInfo.artistMap.primaryArtists.size()>=1)
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
@@ -705,6 +706,7 @@ public class MainActivity extends AppCompatActivity
                     song.setYear(s.year);
                     song.setAlbum_name(s.moreInfo.showTitle);
                     song.setDownload_folder(s.moreInfo.showTitle,s.moreInfo.seasonTitle);
+                    song.setAlbumArtUrl(s.image.trim());
                     if(s.moreInfo.artistMap.primaryArtists.size()>=1)
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
@@ -744,6 +746,7 @@ public class MainActivity extends AppCompatActivity
                 song.setYear(s.year);
                 song.setAlbum_name(s.moreInfo.showTitle);
                 song.setDownload_folder(s.moreInfo.showTitle,s.moreInfo.seasonTitle);
+                song.setAlbumArtUrl(s.image.trim());
                 if(s.moreInfo.artistMap.primaryArtists.size()>=1)
                 {
                     song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
@@ -785,14 +788,8 @@ public class MainActivity extends AppCompatActivity
                     song.setLanguage(s.language);
                     song.setYear(s.year);
                     song.setAlbum_name(s.moreInfo.album);
-//                    if(Utils.getSaveInAlbum(MainActivity.this))
-//                    {
-//                        song.setDownload_folder(s.moreInfo.album);
-//                    }
-//                    else
-//                    {
-                        song.setDownload_folder(playlist_name);
-//                    }
+                    song.setDownload_folder(playlist_name);
+                    song.setAlbumArtUrl(s.image.trim());
                     if(s.moreInfo.artistMap.primaryArtists.size()>=1)
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);

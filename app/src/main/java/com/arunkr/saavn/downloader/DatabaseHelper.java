@@ -20,10 +20,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
             "( " +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "download_id NUMERIC UNIQUE,"+
+            "rel_down_location VARCHAR(256),"+
             "album VARCHAR(128)," +
             "artist VARCHAR(128)," +
             "year CHAR(4)," +
-            "language VARCHAR(20)"+
+            "language VARCHAR(20)," +
+            "album_art VARCHAR(32)" +
             ");";
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)

@@ -21,9 +21,9 @@ public class SongBase
 //    @SerializedName("perma_url")
 //    @Expose
 //    public String permaUrl;
-//    @SerializedName("image")
-//    @Expose
-//    public String image;
+    @SerializedName("image")
+    @Expose
+    public String image;
     @SerializedName("language")
     @Expose
     public String language;

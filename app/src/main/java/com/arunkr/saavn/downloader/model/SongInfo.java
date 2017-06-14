@@ -25,7 +25,7 @@ import static com.arunkr.saavn.downloader.activity_frag.MainActivity.decrypter;
 
 public class SongInfo implements Parcelable
 {
-    private String download_url,album_name,song_name,download_folder;
+    private String download_url,album_name,song_name,download_folder,albumArtUrl;
     private String artist_name,year,language;
     private String extension;
 
@@ -186,6 +186,16 @@ public class SongInfo implements Parcelable
         return extension;
     }
 
+    public String getAlbumArtUrl()
+    {
+        return albumArtUrl;
+    }
+
+    public void setAlbumArtUrl(String albumArtUrl)
+    {
+        this.albumArtUrl = albumArtUrl;
+    }
+
     @Override
     public int describeContents()
     {
@@ -203,6 +213,7 @@ public class SongInfo implements Parcelable
         dest.writeString(this.year);
         dest.writeString(this.language);
         dest.writeString(this.extension);
+        dest.writeString(this.albumArtUrl);
     }
 
     protected SongInfo(Parcel in)
@@ -215,6 +226,7 @@ public class SongInfo implements Parcelable
         this.year = in.readString();
         this.language = in.readString();
         this.extension = in.readString();
+        this.albumArtUrl = in.readString();
     }
 
     public static final Parcelable.Creator<SongInfo> CREATOR = new Parcelable.Creator<SongInfo>()

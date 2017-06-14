@@ -27,7 +27,7 @@ public class DownloadService extends IntentService
     public static final String DOWNLOAD_SONG = "DOWNLOADMANAGER.SONG";
     boolean downloadNext = true;
     long last_download_id=-1;
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     SongInfo song;
 
 
@@ -82,36 +82,51 @@ public class DownloadService extends IntentService
 
     void addToDownload(SongInfo currentSong)
     {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(currentSong.getDownload_url()));
-
-        request.setDescription(currentSong.getAlbum_name())
-                .setTitle(currentSong.getSong_name())
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationUri(Uri.fromFile(new File(Utils.getSaveLocation(getApplicationContext()),
-                        currentSong.getDownload_folder()+"/"
-                        + currentSong.getSong_name() + currentSong.getExtension()))
-                );
         if(downloadManager == null)
         {
             downloadManager = (DownloadManager)getApplicationContext()
                     .getSystemService(Context.DOWNLOAD_SERVICE);
         }
 
-        last_download_id =downloadManager.enqueue(request);
-        insert_into_database(currentSong,last_download_id);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(currentSong.getDownload_url()));
+        String rel_down_location = currentSong.getDownload_folder()+"/" + currentSong.getSong_name() + currentSong.getExtension();
+        request.setDescription(currentSong.getAlbum_name())
+                .setTitle(currentSong.getSong_name())
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationUri(Uri.fromFile(new File(Utils.getSaveLocation(getApplicationContext()),
+                        rel_down_location))
+                );
+
+        //download albumArt
+        String albumArtFilename = Utils.MD5_digest(currentSong.getAlbumArtUrl().getBytes());
+        File albumArtFile = new File(getExternalCacheDir(), albumArtFilename);
+
+        if(!albumArtFile.exists())
+        {
+            DownloadManager.Request albumArtRequest = new DownloadManager.Request(Uri.parse(currentSong.getAlbumArtUrl()));
+
+            albumArtRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+                    .setDestinationUri(Uri.fromFile(albumArtFile));
+            downloadManager.enqueue(albumArtRequest);
+        }
+
+        last_download_id = downloadManager.enqueue(request);
+        insert_into_database(currentSong, last_download_id, rel_down_location, albumArtFilename);
     }
 
-    void insert_into_database(SongInfo song, Long downloaded_id)
+    void insert_into_database(SongInfo song, Long downloaded_id, String rel_down_location, String albumArt)
     {
         DatabaseHelper helper = new DatabaseHelper(getApplicationContext(),
                 "metadata.db", null, DATABASE_VERSION);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("download_id",downloaded_id);
+        values.put("rel_down_location", rel_down_location);
         values.put("album",song.getAlbum_name());
         values.put("artist",song.getArtist_name());
         values.put("year",song.getYear());
         values.put("language",song.getLanguage());
+        values.put("album_art", albumArt);
 
         db.insert("Metadata",null,values);
         db.close();

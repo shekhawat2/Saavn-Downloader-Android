@@ -6,9 +6,18 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+
 import com.arunkr.saavn.downloader.model.SongInfo;
 
 import java.io.File;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by Arun Kumar Shreevastava on 24/10/16.
@@ -63,5 +72,23 @@ public class Utils
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(PreferenceKeys.getIsMaxQualityPreferenceKey(), true);
+    }
+
+    public static String MD5_digest(byte[] array)
+    {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        }
+        catch (Throwable e)
+        {
+        }
+        messageDigest.update(array, 0, array.length);
+        String bigInteger = new BigInteger(1, messageDigest.digest()).toString(16);
+        while (bigInteger.length() < 32)
+        {
+            bigInteger = "0" + bigInteger;
+        }
+        return bigInteger;
     }
 }
