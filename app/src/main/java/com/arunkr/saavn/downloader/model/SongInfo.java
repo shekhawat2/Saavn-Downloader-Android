@@ -193,7 +193,9 @@ public class SongInfo implements Parcelable
 
     public void setAlbumArtUrl(String albumArtUrl)
     {
-        this.albumArtUrl = albumArtUrl;
+        //http://c.saavncdn.com/569/M-S-Dhoni-The-Untold-Story-3-Hindi-2016-150x150.jpg
+        //hacky way but should work
+        this.albumArtUrl = albumArtUrl.replace("150x150","500x500");
     }
 
     @Override
