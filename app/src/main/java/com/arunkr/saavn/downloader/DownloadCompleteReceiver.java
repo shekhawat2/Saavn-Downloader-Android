@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.compat.BuildConfig;
 
@@ -48,6 +50,9 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
                     AudioFile f = AudioFileIO.read(filename);
                     Tag tag = f.getTagOrCreateAndSetDefault();
 
+                    String title = rel_down_location.substring(rel_down_location.lastIndexOf('/')+1,
+                            rel_down_location.lastIndexOf('.'));
+                    tag.setField(FieldKey.TITLE, title);
                     tag.setField(FieldKey.ALBUM, cursor.getString(cursor.getColumnIndexOrThrow("album")));
                     tag.setField(FieldKey.ARTIST, cursor.getString(cursor.getColumnIndexOrThrow("artist")));
                     tag.setField(FieldKey.YEAR, cursor.getString(cursor.getColumnIndexOrThrow("year")));
@@ -61,6 +66,15 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
                     tag.setField(art);
 
                     AudioFileIO.write(f);
+                    MediaScannerConnection.scanFile(context, new String[]{filename.getAbsolutePath()},
+                            null, new MediaScannerConnection.OnScanCompletedListener()
+                    {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri)
+                        {
+
+                        }
+                    });
 
                 } catch (Exception e)
                 {
@@ -68,6 +82,7 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
                 }
                 db.execSQL("DELETE FROM Metadata WHERE download_id=?;",whereArgs);
             }
+
             cursor.close();
             db.close();
             helper.close();
