@@ -66,15 +66,6 @@ public class DownloadCompleteReceiver extends BroadcastReceiver
                     tag.setField(art);
 
                     AudioFileIO.write(f);
-                    MediaScannerConnection.scanFile(context, new String[]{filename.getAbsolutePath()},
-                            null, new MediaScannerConnection.OnScanCompletedListener()
-                    {
-                        @Override
-                        public void onScanCompleted(String path, Uri uri)
-                        {
-
-                        }
-                    });
 
                 } catch (Exception e)
                 {

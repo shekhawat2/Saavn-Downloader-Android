@@ -662,6 +662,10 @@ public class MainActivity extends AppCompatActivity
                     {
                         song.setArtist_name(s.moreInfo.artistMap.primaryArtists.get(0).name);
                     }
+                    else
+                    {
+                        song.setArtist_name("");
+                    }
                     if(Utils.getIsMaxQualityRequested(MainActivity.this))
                     {
                         song.setDownload_url(encUrl,true);

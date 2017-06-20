@@ -91,7 +91,7 @@ public class SongInfo implements Parcelable
     public void setAlbum_name(String album_name)
     {
         this.album_name = StringEscapeUtils.unescapeXml(StringEscapeUtils.unescapeHtml3(album_name))
-                .replaceAll("[\\\\/:*?\"<>|]","").trim();
+                .replaceAll("[\\\\/:*?\"<>|]", "").trim();
     }
 
     public String getSong_name()
